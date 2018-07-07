@@ -1,6 +1,7 @@
 var express = require('express');
-var router = express.Router();
+const sequelize = require('../db/connection');
 
+var router = express.Router();
 let cities = ['Leszno', 'Poznań', 'Kalisz'];
 
 /* GET home page. */
