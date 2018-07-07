@@ -6,11 +6,8 @@
 </head>
 <body>
     <h1>Miasta</h1>
-    <% cities.forEach(function(city) { %>
-        <p><%= city.name %></p>
-    <% }); %>
-    <p>Leszno</p>
-    <p>Poznań</p>
-    <p>Kalisz</p>
+    <% for (var i = 0; i < cities.length; i++) { %>
+        <p><%= cities[i] %></p>
+    <% } %>
 </body>
 </html>
