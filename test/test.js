@@ -1,5 +1,5 @@
 var assert = require('assert');
-var converter = require('../routes/index');
+var converter = require('../routes/convert');
 
 describe('Temperature Conversion', function() {
     describe('fToC', function() {
