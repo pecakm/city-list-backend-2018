@@ -5,7 +5,7 @@ const queries = require('../db/queries');
 
 var router = express.Router();
 
-router.get('/api/cities', function(req, res) {
+router.get('/cities', function(req, res) {
     queries.getAllNames()
     .then(function(data) {
         let cities = parseDataToCityNames(data);
