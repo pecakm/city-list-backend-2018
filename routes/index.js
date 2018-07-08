@@ -6,19 +6,12 @@ const queries = require('../db/queries');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-    readCitiesFromDatabase()
-    .then(function(cities) {
+    queries.getAllNames()
+    .then(function(data) {
+        let cities = parseDataToCityNames(data);
         res.render('index', { cities: cities });
     });
 });
-
-function readCitiesFromDatabase() {
-    return new Promise(function(resolve, reject) {
-        City.findAll().then(cities => {
-            resolve(parseDataToCityNames(cities));
-        });
-    });
-}
 
 function parseDataToCityNames(data) {
     let cityArray = [];

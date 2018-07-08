@@ -3,13 +3,11 @@ City = require('../models/City');
 let queries = {};
 
 queries.getAllNames = function() {
-    City.findAll().then(cities => {
-        return cities
+    return new Promise(function(resolve, reject) {
+        City.findAll().then(cities => {
+            resolve(cities);
+        });
     });
 }
 
 module.exports = queries;
-
-// City.findAll().then(cities => {
-//     //resolve(parseDataToCityNames(cities));
-// });
