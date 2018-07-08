@@ -1,6 +1,4 @@
 var express = require('express');
-const sequelize = require('../db/connection');
-const City = require('../models/City');
 const queries = require('../db/queries');
 
 var router = express.Router();
