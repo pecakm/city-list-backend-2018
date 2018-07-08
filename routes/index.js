@@ -5,11 +5,11 @@ const queries = require('../db/queries');
 
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
+router.get('/api/cities', function(req, res) {
     queries.getAllNames()
     .then(function(data) {
         let cities = parseDataToCityNames(data);
-        res.render('index', { cities: cities });
+        sendResponse(res, cities);
     });
 });
 
@@ -19,6 +19,11 @@ function parseDataToCityNames(data) {
         cityArray.push(city.dataValues.name);
     });
     return cityArray;
+}
+
+function sendResponse(response, data) {
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(data));
 }
 
 module.exports = router;
