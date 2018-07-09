@@ -1,10 +1,10 @@
 var express = require('express');
-const queries = require('../db/queries');
+const cityQueries = require('../db/cityQueries');
 
 var router = express.Router();
 
 router.get('/cities', function(req, res) {
-    queries.getAllNames()
+    cityQueries.getAllCities()
     .then(function(data) {
         let cities = parseDataToCityNames(data);
         sendResponse(res, cities);

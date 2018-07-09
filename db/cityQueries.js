@@ -2,7 +2,7 @@ City = require('../models/City');
 
 let queries = {};
 
-queries.getAllNames = function() {
+queries.getAllCities = function() {
     return new Promise(function(resolve, reject) {
         City.findAll().then(cities => {
             resolve(cities);
