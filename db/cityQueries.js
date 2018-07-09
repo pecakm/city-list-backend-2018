@@ -6,6 +6,8 @@ queries.getAllCities = function() {
     return new Promise(function(resolve, reject) {
         City.findAll().then(cities => {
             resolve(cities);
+        }).catch(function(error) {
+            reject(error);
         });
     });
 }
