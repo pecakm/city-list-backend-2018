@@ -7,22 +7,11 @@ var router = express.Router();
 router.get('/cities', function(req, res) {
     cityQueries.getAllCities()
     .then(function(data) {
-        let cities = parseDataToCityNames(data);
-        sendResponse(res, cities);
+        sendResponse(res, data);
     }).catch(function(error) {
         sendBadResponse(res);
     });
 });
-
-function parseDataToCityNames(data) {
-    let cityArray = [];
-
-    data.forEach(function(city) {
-        cityArray.push(city.name);
-    });
-
-    return cityArray;
-}
 
 function sendResponse(response, data) {
     response.writeHead(200, { 'Content-Type': 'application/json' });
