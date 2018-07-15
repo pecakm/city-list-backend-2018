@@ -1,10 +1,9 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../db/connection');
+const mongoose = require('../db/connection');
 
-const City = sequelize.define('city', {
-    name: {
-        type: Sequelize.STRING
-    }
+var citySchema = mongoose.Schema({
+    name: String
 });
+
+var City = mongoose.model('City', citySchema);
 
 module.exports = City;

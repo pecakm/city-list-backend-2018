@@ -1,16 +1,9 @@
-const Sequelize = require('sequelize');
+const mongoose = require('mongoose');
 
-const sequelize = new Sequelize('citylist', 'root', '', {
-    host: 'localhost',
-    dialect: 'mysql',
-    operatorsAliases: false,
-    define: {
-        timestamps: false,
-        charset: 'utf8',
-        dialectOptions: {
-            collate: 'utf8_general_ci'
-        }
-    }
+const uri = 'mongodb://citylist:citylist01@ds139251.mlab.com:39251/citylist';
+
+mongoose.connect(uri, {
+    useNewUrlParser: true
 });
 
-module.exports = sequelize;
+module.exports = mongoose;

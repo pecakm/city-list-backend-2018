@@ -16,9 +16,11 @@ router.get('/cities', function(req, res) {
 
 function parseDataToCityNames(data) {
     let cityArray = [];
+
     data.forEach(function(city) {
-        cityArray.push(city.dataValues.name);
+        cityArray.push(city.name);
     });
+
     return cityArray;
 }
 

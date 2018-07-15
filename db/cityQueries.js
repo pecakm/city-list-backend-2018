@@ -4,10 +4,12 @@ let queries = {};
 
 queries.getAllCities = function() {
     return new Promise(function(resolve, reject) {
-        City.findAll().then(cities => {
-            resolve(cities);
-        }).catch(function(error) {
-            reject(error);
+        City.find(function(error, cities) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(cities);
+            }
         });
     });
 }
