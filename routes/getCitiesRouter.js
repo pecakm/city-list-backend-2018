@@ -4,7 +4,7 @@ const constants = require('../helpers/Constants');
 
 var router = express.Router();
 
-router.get('/cities', function(req, res) {
+router.get('/', function(req, res) {
     cityQueries.getAllCities()
     .then(function(data) {
         sendResponse(res, data);
