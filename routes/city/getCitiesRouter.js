@@ -19,7 +19,7 @@ function sendResponse(response, data) {
 }
 
 function sendBadResponse(response) {
-    response.writeHead(404, { 'Content-Type': 'application/json' });
+    response.writeHead(500, { 'Content-Type': 'application/json' });
     response.end(JSON.stringify(constants.error));
 }
 

@@ -4,29 +4,39 @@ const User = require('../models/User');
 
 let queries = {};
 
-queries.createUser = function(req, res) {
-    bcrypt.hash(req.body.password, 10, function(err, hash) {
-        if (err) {
-           return res.status(500).json({
-              error: err
-           });
-        } else {
-           const user = new User({
-              email: req.body.email,
-              password: hash    
-           });
+queries.createUser = function(userData) {
+    return new Promise(function(resolve, reject) {
+        bcrypt.hash(userData.password, 10, function(err, hash) {
+            if (err) {
+                let status = 500;
+                reject(status);
+            } else {
+                saveUser(userData, hash)
+                .then(function(status) {
+                    resolve(status);
+                }).catch(function(status) {
+                    reject(status);
+                });
+            }
+        });
+    });
+}
 
-           user.save().then(function(result) {
-                console.log(result);
-                res.status(200).json({
-                    success: 'New user has been created'
-                });
-            }).catch(error => {
-                res.status(500).json({
-                    error: err
-                });
-            });
-        }
+function saveUser(userData, hash) {
+    const user = new User({
+        email: userData.email,
+        password: hash    
+    });
+
+    return new Promise(function(resolve, reject) {
+        user.save()
+        .then(function(result) {
+            let status = 200;
+            resolve(status);
+        }).catch(error => {
+            let status = 500;
+            reject(status);
+        });
     });
 }
 
