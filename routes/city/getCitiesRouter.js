@@ -1,6 +1,6 @@
 var express = require('express');
-const cityQueries = require('../db/cityQueries');
-const constants = require('../helpers/Constants');
+const cityQueries = require('../../db/cityQueries');
+const constants = require('../../helpers/Constants');
 
 var router = express.Router();
 
