@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
     .then(function(data) {
         sendResponse(res, data);
     }).catch(function(error) {
-        sendBadResponse(res);
+        sendBadResponse(res, error);
     });
 });
 
@@ -18,9 +18,9 @@ function sendResponse(response, data) {
     response.end(JSON.stringify(data));
 }
 
-function sendBadResponse(response) {
+function sendBadResponse(response, error) {
     response.writeHead(500, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(constants.error));
+    response.end(JSON.stringify(error));
 }
 
 module.exports = router;
