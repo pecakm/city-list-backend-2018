@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var getCitiesRouter = require('./routes/city/getCityRouter');
 var postUserRouter = require('./routes/user/postUserRouter');
+var getUserRouter = require('./routes/user/getUserRouter');
 
 var app = express();
 
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/cities', getCitiesRouter);
 app.use('/api/register', postUserRouter);
+app.use('/api/user', getUserRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

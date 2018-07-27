@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 
 const User = require('../models/User');
 
+let jwtTokens = require('../modules/jsonWebTokens');
+
 const SALT_ROUNDS = 10;
 
 let queries = {};
@@ -32,7 +34,9 @@ function saveUser(email, hash) {
     return new Promise(function(resolve, reject) {
         user.save()
         .then(function(result) {
-            resolve(result);
+            let token = jwtTokens.signToken(user._id);
+            console.log(token);
+            resolve(token);
         }).catch(error => {
             reject(error);
         });
