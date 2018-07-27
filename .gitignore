@@ -28,3 +28,6 @@ benchmarks/graphs
 
 # Babel ES6
 dist
+
+# Environment variables
+env_vars.js

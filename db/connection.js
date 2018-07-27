@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const uri = 'mongodb://citylist:citylist01@ds139251.mlab.com:39251/citylist';
+const envVars = require('../env_vars');
 
-mongoose.connect(uri, {
+mongoose.connect(envVars.dbUri, {
     useNewUrlParser: true
 });
 
