@@ -13,6 +13,10 @@ credentialsCheck.isValid = function(userData) {
         return false;
     }
 
+    if (userData.password == "") {
+        return false;
+    } 
+
     return true;
 }
 

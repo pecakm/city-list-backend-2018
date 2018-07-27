@@ -21,25 +21,21 @@ router.post('/', function(req, res) {
 
 function createUser(userData, res) {
     userQueries.createUser(userData)
-    .then(function(status) {
-        if (status == 200) {
-            sendResponse(res);
-        } else {
-            sendBadResponse(res);
-        }
-    }).catch(function(status) {
-        sendBadResponse(res);
+    .then(function(result) {
+        sendResponse(res, result);
+    }).catch(function(error) {
+        sendBadResponse(res, error);
     });
 }
 
-function sendResponse(response) {
+function sendResponse(response, result) {
     response.writeHead(200, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(constants.userRegistered));
+    response.end(JSON.stringify(result));
 }
 
-function sendBadResponse(response) {
-    response.writeHead(500, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(constants.error));
+function sendBadResponse(response, error) {
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(error));
 }
 
 function sendIncorrectCredentialsResponse(response) {

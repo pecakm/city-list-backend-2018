@@ -2,40 +2,39 @@ const bcrypt = require('bcrypt');
 
 const User = require('../models/User');
 
+const SALT_ROUNDS = 10;
+
 let queries = {};
 
 queries.createUser = function(userData) {
     return new Promise(function(resolve, reject) {
-        bcrypt.hash(userData.password, 10, function(err, hash) {
+        bcrypt.hash(userData.password, SALT_ROUNDS, function(err, hash) {
             if (err) {
-                let status = 500;
-                reject(status);
+                reject(err);
             } else {
-                saveUser(userData, hash)
-                .then(function(status) {
-                    resolve(status);
-                }).catch(function(status) {
-                    reject(status);
+                saveUser(userData.email, hash)
+                .then(function(result) {
+                    resolve(result);
+                }).catch(function(error) {
+                    reject(error);
                 });
             }
         });
     });
 }
 
-function saveUser(userData, hash) {
+function saveUser(email, hash) {
     const user = new User({
-        email: userData.email,
+        email: email,
         password: hash    
     });
 
     return new Promise(function(resolve, reject) {
         user.save()
         .then(function(result) {
-            let status = 200;
-            resolve(status);
+            resolve(result);
         }).catch(error => {
-            let status = 500;
-            reject(status);
+            reject(error);
         });
     });
 }
