@@ -27,4 +27,9 @@ response.sendNoUserFoundResponse = function(res) {
     res.end(JSON.stringify(constants.NO_USER_FOUND));
 }
 
+response.sendForbiddenResponse = function(res) {
+    res.writeHead(403, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(constants.NO_ALLOW));
+}
+
 module.exports = response;

@@ -1,6 +1,6 @@
 var jwt = require('jsonwebtoken');
 var envVars = require('../env_vars');
-
+const userQueries = require('../db/userQueries');
 let response = require('../modules/responseType');
 
 const TOKEN_EXP_IN_SECONDS = 86400;
@@ -23,7 +23,6 @@ jwtTokens.verifyToken = function(req, res, next) {
             if (err) {
                 response.sendBadResponse(res, err);
             } else {
-                console.log("LOG: " + data.id);
                 req.userId = data.id;
                 next();
             }

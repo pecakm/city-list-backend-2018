@@ -1,6 +1,7 @@
 var express = require('express');
 
 const adminQueries = require('../../db/adminQueries');
+const userQueries = require('../../db/userQueries');
 
 let jwtTokens = require('../../modules/jsonWebTokens');
 let response = require('../../modules/responseType');
@@ -8,14 +9,31 @@ let response = require('../../modules/responseType');
 var router = express.Router();
 
 router.post('/add', jwtTokens.verifyToken, function(req, res) {
-    let cityName = req.body.name;
-    
+    userQueries.findUserById(req.userId)
+    .then(function(user) {
+        if (user.role_id == 0) {
+            addCity(req.body.name, res);
+        } else {
+            response.sendForbiddenResponse(res);
+        }
+    }).catch(function(err) {
+        if (err.status == 404) {
+            response.sendNoUserFoundResponse(res);
+        } else {
+            response.sendBadResponse(res, err);
+        }
+    });
+});
+
+function addCity(name, res) {
+    let cityName = name;
+
     adminQueries.addCity(cityName)
     .then(function(city) {
         response.sendResponse(res, city);
     }).catch(function(err) {
         response.sendBadResponse(res, err);
     });
-});
+}
 
 module.exports = router;
