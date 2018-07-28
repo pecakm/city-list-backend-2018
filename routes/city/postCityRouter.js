@@ -1,5 +1,5 @@
 var express = require('express');
-const adminQueries = require('../../db/adminQueries');
+const cityQueries = require('../../db/cityQueries');
 const userQueries = require('../../db/userQueries');
 let jwtTokens = require('../../modules/jsonWebTokens');
 let response = require('../../modules/responseType');
@@ -42,7 +42,7 @@ function addCity(name, res) {
     let cityName = name;
 
     if (cityNameCheck.isValid(cityName)) {
-        adminQueries.addCity(cityName)
+        cityQueries.addCity(cityName)
         .then(function(city) {
             response.sendResponse(res, city);
         }).catch(function(err) {
