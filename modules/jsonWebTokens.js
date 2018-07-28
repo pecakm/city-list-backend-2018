@@ -1,12 +1,13 @@
 var jwt = require('jsonwebtoken');
-
 var envVars = require('../env_vars');
+
+const TOKEN_EXP_IN_SECONDS = 86400;
 
 let jwtTokens = {};
 
 jwtTokens.signToken = function(userId) {
     return jwt.sign({ id: userId }, envVars.SECRET, {
-        expiresIn: 86400
+        expiresIn: TOKEN_EXP_IN_SECONDS
     });
 }
 
