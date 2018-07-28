@@ -1,15 +1,32 @@
 var express = require('express');
 const userQueries = require('../../db/userQueries');
+const userRoleQueries = require('../../db/userRoleQueries');
 const credentialsCheck = require('../../modules/credentialsCheck');
 let response = require('../../modules/responseType');
 
 var router = express.Router();
 
 router.post('/register', function(req, res) {
+    userRoleQueries.getSubscriberRoleId()
+    .then(function(subscriberRoleId) {
+        checkUserData(subscriberRoleId, req, res);
+    }).catch(function(err) {
+        if (err.status == 404) {
+            response.sendNoItemFoundResponse(res);
+        } else {
+            response.sendBadResponse(res, err);
+        }
+
+        console.log('WORK');
+        return null;
+    });
+});
+
+function checkUserData(subscriberRoleId, req, res) {
     let userData = {
         email: req.body.email,
         password: req.body.password,
-        role: req.body.role
+        role: subscriberRoleId
     };
 
     if (credentialsCheck.isValid(userData)) {
@@ -17,7 +34,7 @@ router.post('/register', function(req, res) {
     } else {
         response.sendIncorrectCredentialsResponse(res);
     }
-});
+}
 
 function createUser(userData, res) {
     userQueries.createUser(userData)

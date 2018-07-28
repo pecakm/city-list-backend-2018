@@ -16,4 +16,18 @@ queries.getAdminRoleId = function() {
     });
 }
 
+queries.getSubscriberRoleId = function() {
+    return new Promise(function(resolve, reject) {
+        UserRole.findOne({ description: 'subscriber' }, function(err, role) {
+            if (err) {
+                reject({ status: 500, message: err });
+            } else if (!role) {
+                reject({ status: 404 });
+            } else {
+                resolve(role.id);
+            }
+        });
+    });
+}
+
 module.exports = queries;

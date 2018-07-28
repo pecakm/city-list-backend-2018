@@ -30,7 +30,11 @@ function verifyAdmin(roleId, req, res) {
             response.sendForbiddenResponse(res);
         }
     }).catch(function(err) {
-        response.sendBadResponse(res, err);
+        if (err.status == 404) {
+            response.sendNoItemFoundResponse(res);
+        } else {
+            response.sendBadResponse(res, err);
+        }
     });
 }
 
