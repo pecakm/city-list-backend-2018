@@ -43,4 +43,18 @@ function saveUser(email, hash) {
     });
 }
 
+queries.findUser = function(id) {
+    return new Promise(function(resolve, reject) {
+        User.findById(id, { password: 0 }, function(err, user) {
+            if (err) {
+                reject(500);
+            } else if (!user) {
+                reject(404);
+            } else {
+                resolve(user);
+            }
+        });
+    });
+}
+
 module.exports = queries;

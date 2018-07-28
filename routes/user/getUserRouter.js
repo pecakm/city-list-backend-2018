@@ -1,5 +1,8 @@
 var express = require('express');
 
+const userQueries = require('../../db/userQueries');
+const constants = require('../../helpers/Constants');
+
 let jwtTokens = require('../../modules/jsonWebTokens');
 
 var router = express.Router();
@@ -14,7 +17,16 @@ router.get('/', function(req, res) {
         if (data == 500) {
             sendTokenAuthFailResponse(res);
         } else {
-            sendResponse(res, data);
+            userQueries.findUser(data.id)
+            .then(function(user) {
+                sendResponse(res, user);
+            }).catch(function(err) {
+                if (err == 404) {
+                    sendNoUserFoundResponse(res);
+                } else {
+                    sendBadResponse(res);
+                }
+            });
         }
     }
 });
@@ -40,6 +52,16 @@ function sendTokenAuthFailResponse(response) {
     };
     response.writeHead(500, { 'Content-Type': 'application/json' });
     response.end(JSON.stringify(data));
+}
+
+function sendNoUserFoundResponse(response) {
+    response.writeHead(404, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(constants.noUserFound));
+}
+
+function sendBadResponse(response) {
+    response.writeHead(500, { 'Content-Type': 'application/json' });
+    response.end(JSON.stringify(constants.error));
 }
 
 module.exports = router;

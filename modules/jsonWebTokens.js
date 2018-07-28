@@ -13,11 +13,11 @@ jwtTokens.signToken = function(userId) {
 }
 
 jwtTokens.verifyToken = function(token) {
-    let data = jwt.verify(token, envVars.secret, function(err, decoded) {
+    let data = jwt.verify(token, envVars.secret, function(err, data) {
         if (err) {
             return 500;
         } else {
-            return decoded;
+            return data;
         }
     });
 
