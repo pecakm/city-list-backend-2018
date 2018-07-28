@@ -1,6 +1,5 @@
 var jwt = require('jsonwebtoken');
 var envVars = require('../env_vars');
-const userQueries = require('../db/userQueries');
 let response = require('../modules/responseType');
 
 const TOKEN_EXP_IN_SECONDS = 86400;

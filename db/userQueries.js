@@ -1,7 +1,5 @@
 const bcrypt = require('bcrypt');
-
 const User = require('../models/User');
-
 let jwtTokens = require('../modules/jsonWebTokens');
 
 const SALT_ROUNDS = 10;

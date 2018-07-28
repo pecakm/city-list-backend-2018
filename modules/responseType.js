@@ -7,11 +7,6 @@ response.sendResponse = function(res, data) {
     res.end(JSON.stringify(data));
 }
 
-response.sendBadResponse = function(res, message) {
-    res.writeHead(500, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(message));
-}
-
 response.sendIncorrectCredentialsResponse = function(res) {
     res.writeHead(400, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(constants.INCORRECT_CREDENTIALS));
@@ -22,14 +17,19 @@ response.sendNoTokenResponse = function(res) {
     res.end(JSON.stringify(constants.NO_TOKEN_PROVIDED));
 }
 
+response.sendForbiddenResponse = function(res) {
+    res.writeHead(403, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(constants.NO_ALLOW));
+}
+
 response.sendNoUserFoundResponse = function(res) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(constants.NO_USER_FOUND));
 }
 
-response.sendForbiddenResponse = function(res) {
-    res.writeHead(403, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(constants.NO_ALLOW));
+response.sendBadResponse = function(res, message) {
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(message));
 }
 
 module.exports = response;
