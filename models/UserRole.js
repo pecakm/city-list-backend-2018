@@ -13,6 +13,6 @@ var roleSchema = mongoose.Schema({
     }
 });
 
-var UserRole = mongoose.model('UserRole', roleSchema);
+var UserRole = mongoose.model('User_Role', roleSchema);
 
 module.exports = UserRole;

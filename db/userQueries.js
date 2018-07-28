@@ -14,7 +14,7 @@ queries.createUser = function(userData) {
             if (err) {
                 reject(err);
             } else {
-                saveUser(userData.email, hash)
+                saveUser(userData.email, hash, userData.role)
                 .then(function(result) {
                     resolve(result);
                 }).catch(function(error) {
@@ -25,10 +25,11 @@ queries.createUser = function(userData) {
     });
 }
 
-function saveUser(email, hash) {
+function saveUser(email, hash, role) {
     const user = new User({
         email: email,
-        password: hash    
+        password: hash,
+        role_id: role
     });
 
     return new Promise(function(resolve, reject) {
