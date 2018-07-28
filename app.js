@@ -7,9 +7,11 @@ var bodyParser = require('body-parser');
 
 var getCityRouter = require('./routes/city/getCityRouter');
 var postCityRouter = require('./routes/city/postCityRouter');
+var deleteCityRouter = require('./routes/city/deleteCityRouter');
 var postUserRouter = require('./routes/user/postUserRouter');
 var getUserRouter = require('./routes/user/getUserRouter');
 var putUserRouter = require('./routes/user/putUserRouter');
+
 
 var app = express();
 
@@ -25,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/city', getCityRouter);
 app.use('/api/city', postCityRouter);
+app.use('/api/city', deleteCityRouter);
 app.use('/api/user', postUserRouter);
 app.use('/api/user', getUserRouter);
 app.use('/api/user', putUserRouter);

@@ -54,4 +54,20 @@ queries.findCityById = function(id) {
     });
 }
 
+queries.deleteCity = function(id) {
+    return new Promise(function(resolve, reject) {
+        City.remove({ _id: id }, function(err, data) {
+            if (err) {
+                reject(err);
+            } else {
+                if (data.n == 0) {
+                    reject({ status: 404 });
+                } else {
+                    resolve(data);
+                }
+            }
+        });
+    })
+}
+
 module.exports = queries;
