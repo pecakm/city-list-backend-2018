@@ -2,7 +2,6 @@ var express = require('express');
 
 const userQueries = require('../../db/userQueries');
 const credentialsCheck = require('../../modules/credentialsCheck');
-const constants = require('../../helpers/Constants');
 
 let response = require('../../modules/responseType');
 
@@ -17,7 +16,7 @@ router.post('/', function(req, res) {
     if (credentialsCheck.isValid(userData)) {
         createUser(userData, res);
     } else {
-        sendIncorrectCredentialsResponse(res);
+        response.sendIncorrectCredentialsResponse(res);
     }
 });
 
@@ -26,18 +25,8 @@ function createUser(userData, res) {
     .then(function(data) {
         response.sendResponse(res, data);
     }).catch(function(error) {
-        sendBadResponse(res, error);
+        response.sendBadResponse(res, error);
     });
-}
-
-function sendBadResponse(response, error) {
-    response.writeHead(500, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(error));
-}
-
-function sendIncorrectCredentialsResponse(response) {
-    response.writeHead(400, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(constants.INCORRECT_CREDENTIALS));
 }
 
 module.exports = router;

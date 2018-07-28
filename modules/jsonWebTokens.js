@@ -13,7 +13,7 @@ jwtTokens.signToken = function(userId) {
 jwtTokens.verifyToken = function(token) {
     return jwt.verify(token, envVars.SECRET, function(err, data) {
         if (err) {
-            return 500;
+            return { status: 500, message: err };
         } else {
             return data;
         }

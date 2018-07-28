@@ -45,9 +45,9 @@ queries.findUser = function(id) {
     return new Promise(function(resolve, reject) {
         User.findById(id, { password: 0 }, function(err, user) {
             if (err) {
-                reject(500);
+                reject({ status: 500, message: err });
             } else if (!user) {
-                reject(404);
+                reject({ status: 404 });
             } else {
                 resolve(user);
             }

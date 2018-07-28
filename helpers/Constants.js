@@ -1,6 +1,5 @@
 var constants = {};
 
-constants.ERROR = 'Error occured.';
 constants.USER_REGISTERED = 'User registered.';
 constants.INCORRECT_CREDENTIALS = 'Incorrect Credentials';
 constants.NO_USER_FOUND = 'No user found.';

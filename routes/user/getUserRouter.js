@@ -1,7 +1,6 @@
 var express = require('express');
 
 const userQueries = require('../../db/userQueries');
-const constants = require('../../helpers/Constants');
 
 let jwtTokens = require('../../modules/jsonWebTokens');
 let response = require('../../modules/responseType');
@@ -9,47 +8,28 @@ let response = require('../../modules/responseType');
 var router = express.Router();
 
 router.get('/', function(req, res) {
-    var token = req.headers['x-access-token'];
+    let token = req.headers['x-access-token'];
+
     if (!token) {
-        sendNoTokenResponse(res);
+        response.sendNoTokenResponse(res);
     } else {
         let data = jwtTokens.verifyToken(token);
 
-        if (data == 500) {
-            sendTokenAuthFailResponse(res);
+        if (data.status == 500) {
+            response.sendTokenAuthFailResponse(res, data.message);
         } else {
             userQueries.findUser(data.id)
             .then(function(user) {
-                response.sendResponse(res, data);
+                response.sendResponse(res, user);
             }).catch(function(err) {
-                if (err == 404) {
-                    sendNoUserFoundResponse(res);
+                if (err.status == 404) {
+                    response.sendNoUserFoundResponse(res);
                 } else {
-                    sendBadResponse(res);
+                    response.sendBadResponse(res, err.message);
                 }
             });
         }
     }
 });
-
-function sendNoTokenResponse(response) {
-    response.writeHead(401, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(constants.NO_TOKEN_PROVIDED));
-}
-
-function sendTokenAuthFailResponse(response) {
-    response.writeHead(500, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(constants.TOKEN_AUTH_FAIL));
-}
-
-function sendNoUserFoundResponse(response) {
-    response.writeHead(404, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(constants.noUserFound));
-}
-
-function sendBadResponse(response) {
-    response.writeHead(500, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(constants.error));
-}
 
 module.exports = router;
