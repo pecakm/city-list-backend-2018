@@ -74,4 +74,22 @@ queries.loginUser = function(email, password) {
     });
 }
 
+queries.likeCity = function(userId, cityId) {
+    return new Promise(function(resolve, reject) {
+        User.update(
+            { _id: userId },
+            { $push: { liked_cities: cityId } },
+            function(err, cityId) {
+                if (err) {
+                    reject({ status: 500, message: err });
+                } else if (!cityId) {
+                    reject({ status: 404 });
+                } else {
+                    resolve(cityId);
+                }
+            }
+        );
+    });
+}
+
 module.exports = queries;

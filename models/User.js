@@ -14,7 +14,8 @@ var userSchema = mongoose.Schema({
     role_id: {
         type: Number,
         required: true
-    }
+    },
+    liked_cities: [String]
 });
 
 var User = mongoose.model('User', userSchema);

@@ -4,7 +4,7 @@ let response = require('../../modules/responseType');
 
 var router = express.Router();
 
-router.get('/', function(req, res) {
+router.get('/all', function(req, res) {
     cityQueries.getAllCities()
     .then(function(data) {
         response.sendResponse(res, data);

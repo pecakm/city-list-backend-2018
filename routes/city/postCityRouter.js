@@ -53,4 +53,43 @@ function addCity(name, res) {
     }
 }
 
+router.post('/like', jwtTokens.verifyToken, function(req, res) {
+    userQueries.findUserById(req.userId)
+    .then(function(user) {
+        verifySubscriber(user, req, res);
+    }).catch(function(err) {
+        if (err.status == 404) {
+            response.sendNoItemFoundResponse(res);
+        } else {
+            response.sendBadResponse(res, err);
+        }
+    });
+});
+
+function verifySubscriber(user, req, res) {
+    userRoleQueries.getSubscriberRoleId()
+    .then(function(subscriberId) {
+        if (subscriberId == user.role_id) {
+            likeCity(user._id, req.body.cityId);
+        } else {
+            response.sendForbiddenResponse(res);
+        }
+    }).catch(function(err) {
+        if (err.status == 404) {
+            response.sendNoItemFoundResponse(res);
+        } else {
+            response.sendBadResponse(res, err);
+        }
+    });
+}
+
+function likeCity(userId, cityId, res) {
+    userQueries.likeCity(userId, cityId)
+    .then(function(city) {
+        response.sendResponse(res, city);
+    }).catch(function(err) {
+        response.sendBadResponse(res, err);
+    });
+}
+
 module.exports = router;
