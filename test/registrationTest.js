@@ -1,5 +1,4 @@
 var assert = require('assert');
-
 const credentialsCheck = require('../modules/credentialsCheck');
 
 let userData = {

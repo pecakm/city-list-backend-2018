@@ -4,6 +4,7 @@ const userQueries = require('../../db/userQueries');
 let jwtTokens = require('../../modules/jsonWebTokens');
 let response = require('../../modules/responseType');
 let userRoleQueries = require('../../db/userRoleQueries');
+let cityNameCheck = require('../../modules/cityNameCheck');
 
 var router = express.Router();
 
@@ -36,12 +37,16 @@ function verifyAdmin(roleId, req, res) {
 function addCity(name, res) {
     let cityName = name;
 
-    adminQueries.addCity(cityName)
-    .then(function(city) {
-        response.sendResponse(res, city);
-    }).catch(function(err) {
-        response.sendBadResponse(res, err);
-    });
+    if (cityNameCheck.isValid(cityName)) {
+        adminQueries.addCity(cityName)
+        .then(function(city) {
+            response.sendResponse(res, city);
+        }).catch(function(err) {
+            response.sendBadResponse(res, err);
+        });
+    } else {
+        response.sendIncorrectCredentialsResponse(res);
+    }
 }
 
 module.exports = router;
