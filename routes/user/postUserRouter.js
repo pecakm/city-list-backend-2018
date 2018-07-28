@@ -40,7 +40,7 @@ function sendBadResponse(response, error) {
 
 function sendIncorrectCredentialsResponse(response) {
     response.writeHead(200, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(constants.incorrectCredentials));
+    response.end(JSON.stringify(constants.INCORRECT_CREDENTIALS));
 }
 
 module.exports = router;

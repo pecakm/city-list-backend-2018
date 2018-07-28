@@ -32,12 +32,8 @@ router.get('/', function(req, res) {
 });
 
 function sendNoTokenResponse(response) {
-    let data = {
-        auth: false,
-        message: 'No token provided.'
-    };
     response.writeHead(401, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(data));
+    response.end(JSON.stringify(constants.NO_TOKEN_PROVIDED));
 }
 
 function sendResponse(response, data) {
@@ -46,12 +42,8 @@ function sendResponse(response, data) {
 }
 
 function sendTokenAuthFailResponse(response) {
-    let data = {
-        auth: false,
-        message: 'Failed to authenticate token.'
-    };
     response.writeHead(500, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(data));
+    response.end(JSON.stringify(constants.TOKEN_AUTH_FAIL));
 }
 
 function sendNoUserFoundResponse(response) {

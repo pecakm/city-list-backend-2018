@@ -1,8 +1,10 @@
 var constants = {};
 
-constants.error = 'Error occured.';
-constants.userRegistered = 'User registered.';
-constants.incorrectCredentials = "Incorrect Credentials";
-constants.noUserFound = "No user found.";
+constants.ERROR = 'Error occured.';
+constants.USER_REGISTERED = 'User registered.';
+constants.INCORRECT_CREDENTIALS = 'Incorrect Credentials';
+constants.NO_USER_FOUND = 'No user found.';
+constants.NO_TOKEN_PROVIDED = 'No token provided.';
+constants.TOKEN_AUTH_FAIL = 'Failed to authenticate token.';
 
 module.exports = constants;

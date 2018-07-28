@@ -35,7 +35,6 @@ function saveUser(email, hash) {
         user.save()
         .then(function(result) {
             let token = jwtTokens.signToken(user._id);
-            console.log(token);
             resolve(token);
         }).catch(error => {
             reject(error);
