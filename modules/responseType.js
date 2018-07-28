@@ -22,9 +22,9 @@ response.sendForbiddenResponse = function(res) {
     res.end(JSON.stringify(constants.NO_ALLOW));
 }
 
-response.sendNoUserFoundResponse = function(res) {
+response.sendNoItemFoundResponse = function(res) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(constants.NO_USER_FOUND));
+    res.end(JSON.stringify(constants.NO_ITEM_FOUND));
 }
 
 response.sendBadResponse = function(res, message) {

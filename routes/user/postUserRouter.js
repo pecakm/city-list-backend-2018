@@ -1,8 +1,6 @@
 var express = require('express');
-
 const userQueries = require('../../db/userQueries');
 const credentialsCheck = require('../../modules/credentialsCheck');
-
 let response = require('../../modules/responseType');
 
 var router = express.Router();
@@ -38,7 +36,7 @@ router.post('/login', function(req, res) {
         if (err.status == 500) {
             response.sendBadResponse(res, err.message);
         } else {
-            response.sendNoUserFoundResponse(res);
+            response.sendNoItemFoundResponse(res);
         }
     });
 });
