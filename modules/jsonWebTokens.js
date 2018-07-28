@@ -23,6 +23,7 @@ jwtTokens.verifyToken = function(req, res, next) {
             if (err) {
                 response.sendBadResponse(res, err);
             } else {
+                console.log("LOG: " + data.id);
                 req.userId = data.id;
                 next();
             }

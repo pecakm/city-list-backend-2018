@@ -8,7 +8,9 @@ let response = require('../../modules/responseType');
 var router = express.Router();
 
 router.post('/add', jwtTokens.verifyToken, function(req, res) {
-    adminQueries.addCity()
+    let cityName = req.body.name;
+    
+    adminQueries.addCity(cityName)
     .then(function(city) {
         response.sendResponse(res, city);
     }).catch(function(err) {
