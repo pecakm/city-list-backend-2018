@@ -42,7 +42,7 @@ function validatePassword(password) {
 }
 
 function validateRole(role) {
-    if (typeof(role) != 'number') {
+    if (role == null) {
         return false;
     }
 

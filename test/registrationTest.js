@@ -5,7 +5,7 @@ const credentialsCheck = require('../modules/credentialsCheck');
 let userData = {
     email: 'test@test.pl',
     password: 'test123',
-    role: 0
+    role: '0'
 };
 
 describe('User registration', function() {
@@ -22,13 +22,13 @@ describe('User registration', function() {
         it('should not pass when email is null', function() {
             assert.equal(false, credentialsCheck.isValid({
                 password: 'test123',
-                role: 0
+                role: '0'
             }));
         });
         it('should not pass when password is null', function() {
             assert.equal(false, credentialsCheck.isValid({
                 email: 'test@test.pl',
-                role: 0
+                role: '0'
             }));
         });
         it('should not pass when role is null', function() {
@@ -111,12 +111,12 @@ describe('User registration', function() {
         });
         it('should not pass when role id is under 0', function() {
             let data = userData;
-            data.role = -1;
+            data.role = '-1';
             assert.equal(false, credentialsCheck.isValid(data));
         });
         it('should not pass when role id is over 1', function() {
             let data = userData;
-            data.role = 2;
+            data.role = '2';
             assert.equal(false, credentialsCheck.isValid(data));
         });
     });
