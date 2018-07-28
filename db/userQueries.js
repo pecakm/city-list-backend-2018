@@ -41,7 +41,7 @@ function saveUser(email, hash) {
     });
 }
 
-queries.findUser = function(id) {
+queries.findUserById = function(id) {
     return new Promise(function(resolve, reject) {
         User.findById(id, { password: 0 }, function(err, user) {
             if (err) {
@@ -55,7 +55,7 @@ queries.findUser = function(id) {
     });
 }
 
-queries.findOne = function(email, password) {
+queries.loginUser = function(email, password) {
     return new Promise(function(resolve, reject) {
         User.findOne({ email: email }, function(err, user) {
             if (err) {

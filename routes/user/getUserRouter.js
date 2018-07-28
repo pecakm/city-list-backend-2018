@@ -8,7 +8,7 @@ let response = require('../../modules/responseType');
 var router = express.Router();
 
 router.get('/', jwtTokens.verifyToken, function(req, res) {
-    userQueries.findUser(req.userId)
+    userQueries.findUserById(req.userId)
     .then(function(user) {
         response.sendResponse(res, user);
     }).catch(function(err) {

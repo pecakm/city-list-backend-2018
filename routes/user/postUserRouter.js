@@ -30,7 +30,7 @@ function createUser(userData, res) {
 }
 
 router.post('/login', function(req, res) {
-    userQueries.findOne(req.body.email, req.body.password)
+    userQueries.loginUser(req.body.email, req.body.password)
     .then(function(token) {
         response.sendResponse(res, token);
     }).catch(function(err) {
