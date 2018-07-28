@@ -13,7 +13,7 @@ router.post('/add', jwtTokens.verifyToken, function(req, res) {
         verifyAdmin(user.role_id, req, res);
     }).catch(function(err) {
         if (err.status == 404) {
-            response.sendNoUserFoundResponse(res);
+            response.sendNoItemFoundResponse(res);
         } else {
             response.sendBadResponse(res, err);
         }
