@@ -29,7 +29,7 @@ response.sendTokenAuthFailResponse = function(res, message) {
 
 response.sendNoUserFoundResponse = function(res) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(constants.noUserFound));
+    res.end(JSON.stringify(constants.NO_USER_FOUND));
 }
 
 module.exports = response;
