@@ -9,6 +9,7 @@ var getCityRouter = require('./routes/city/getCityRouter');
 var postCityRouter = require('./routes/city/postCityRouter');
 var postUserRouter = require('./routes/user/postUserRouter');
 var getUserRouter = require('./routes/user/getUserRouter');
+var putUserRouter = require('./routes/user/putUserRouter');
 
 var app = express();
 
@@ -26,6 +27,7 @@ app.use('/api/city', getCityRouter);
 app.use('/api/city', postCityRouter);
 app.use('/api/user', postUserRouter);
 app.use('/api/user', getUserRouter);
+app.use('/api/user', putUserRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
