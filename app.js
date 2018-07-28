@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/cities', getCitiesRouter);
-app.use('/api/register', postUserRouter);
+app.use('/api/user', postUserRouter);
 app.use('/api/user', getUserRouter);
 
 // catch 404 and forward to error handler

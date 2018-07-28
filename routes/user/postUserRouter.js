@@ -7,7 +7,7 @@ let response = require('../../modules/responseType');
 
 var router = express.Router();
 
-router.post('/', function(req, res) {
+router.post('/register', function(req, res) {
     let userData = {
         email: req.body.email,
         password: req.body.password
@@ -28,5 +28,18 @@ function createUser(userData, res) {
         response.sendBadResponse(res, error);
     });
 }
+
+router.post('/login', function(req, res) {
+    userQueries.findOne(req.body.email, req.body.password)
+    .then(function(token) {
+        response.sendResponse(res, token);
+    }).catch(function(err) {
+        if (err.status == 500) {
+            response.sendBadResponse(res, err.message);
+        } else {
+            response.sendNoUserFoundResponse(res);
+        }
+    });
+});
 
 module.exports = router;

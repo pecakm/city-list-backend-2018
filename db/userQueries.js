@@ -55,4 +55,24 @@ queries.findUser = function(id) {
     });
 }
 
+queries.findOne = function(email, password) {
+    return new Promise(function(resolve, reject) {
+        User.findOne({ email: email }, function(err, user) {
+            if (err) {
+                reject({ status: 500, message: err });
+            } else if (!user) {
+                reject({ status: 404 });
+            } else {
+                let passwordIsValid = bcrypt.compareSync(password, user.password);
+
+                if (!passwordIsValid) {
+                    reject({ status: 404 });
+                } else {
+                    resolve(jwtTokens.signToken(user._id));
+                }
+            }
+        });
+    });
+}
+
 module.exports = queries;
