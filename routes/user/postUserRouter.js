@@ -16,9 +16,6 @@ router.post('/register', function(req, res) {
         } else {
             response.sendBadResponse(res, err);
         }
-
-        console.log('WORK');
-        return null;
     });
 });
 
