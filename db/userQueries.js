@@ -78,14 +78,14 @@ queries.likeCity = function(userId, cityId) {
     return new Promise(function(resolve, reject) {
         User.update(
             { _id: userId },
-            { $push: { liked_cities: cityId } },
-            function(err, cityId) {
+            { $addToSet: { liked_cities: cityId } },
+            function(err, data) {
                 if (err) {
                     reject({ status: 500, message: err });
                 } else if (!cityId) {
                     reject({ status: 404 });
                 } else {
-                    resolve(cityId);
+                    resolve(data);
                 }
             }
         );

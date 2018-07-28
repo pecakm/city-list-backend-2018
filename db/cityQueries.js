@@ -40,4 +40,18 @@ function saveCity(name) {
     });
 }
 
+queries.findCityById = function(id) {
+    return new Promise(function(resolve, reject) {
+        City.findById(id, function(err, city) {
+            if (err) {
+                reject({ status: 500, message: err });
+            } else if (!city) {
+                reject({ status: 404 });
+            } else {
+                resolve(city._id);
+            }
+        });
+    });
+}
+
 module.exports = queries;

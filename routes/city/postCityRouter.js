@@ -70,7 +70,7 @@ function verifySubscriber(user, req, res) {
     userRoleQueries.getSubscriberRoleId()
     .then(function(subscriberId) {
         if (subscriberId == user.role_id) {
-            likeCity(user._id, req.body.cityId);
+            verifyCity(user._id, req.body.cityId, res);
         } else {
             response.sendForbiddenResponse(res);
         }
@@ -83,10 +83,23 @@ function verifySubscriber(user, req, res) {
     });
 }
 
+function verifyCity(userId, cityId, res) {
+    cityQueries.findCityById(cityId)
+    .then(function(city) {
+        likeCity(userId, city, res);
+    }).catch(function(err) {
+        if (err.status == 404) {
+            response.sendNoItemFoundResponse(res);
+        } else {
+            response.sendBadResponse(res, err.message);
+        }
+    });
+}
+
 function likeCity(userId, cityId, res) {
     userQueries.likeCity(userId, cityId)
-    .then(function(city) {
-        response.sendResponse(res, city);
+    .then(function(data) {
+        response.sendResponse(res, data);
     }).catch(function(err) {
         response.sendBadResponse(res, err);
     });
