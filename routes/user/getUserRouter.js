@@ -16,7 +16,7 @@ router.get('/', function(req, res) {
         let data = jwtTokens.verifyToken(token);
 
         if (data.status == 500) {
-            response.sendTokenAuthFailResponse(res, data.message);
+            response.sendBadResponse(res, data.message);
         } else {
             userQueries.findUser(data.id)
             .then(function(user) {

@@ -22,11 +22,6 @@ response.sendNoTokenResponse = function(res) {
     res.end(JSON.stringify(constants.NO_TOKEN_PROVIDED));
 }
 
-response.sendTokenAuthFailResponse = function(res, message) {
-    res.writeHead(500, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(message));
-}
-
 response.sendNoUserFoundResponse = function(res) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(constants.NO_USER_FOUND));
