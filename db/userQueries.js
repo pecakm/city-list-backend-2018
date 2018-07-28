@@ -34,8 +34,7 @@ function saveUser(email, hash) {
     return new Promise(function(resolve, reject) {
         user.save()
         .then(function(result) {
-            let token = jwtTokens.signToken(user._id);
-            resolve(token);
+            resolve(jwtTokens.signToken(user._id));
         }).catch(error => {
             reject(error);
         });

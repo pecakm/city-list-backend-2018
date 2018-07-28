@@ -4,6 +4,7 @@ const userQueries = require('../../db/userQueries');
 const constants = require('../../helpers/Constants');
 
 let jwtTokens = require('../../modules/jsonWebTokens');
+let response = require('../../modules/responseType');
 
 var router = express.Router();
 
@@ -19,7 +20,7 @@ router.get('/', function(req, res) {
         } else {
             userQueries.findUser(data.id)
             .then(function(user) {
-                sendResponse(res, user);
+                response.sendResponse(res, data);
             }).catch(function(err) {
                 if (err == 404) {
                     sendNoUserFoundResponse(res);
@@ -34,11 +35,6 @@ router.get('/', function(req, res) {
 function sendNoTokenResponse(response) {
     response.writeHead(401, { 'Content-Type': 'application/json' });
     response.end(JSON.stringify(constants.NO_TOKEN_PROVIDED));
-}
-
-function sendResponse(response, data) {
-    response.writeHead(200, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(data));
 }
 
 function sendTokenAuthFailResponse(response) {
