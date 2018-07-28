@@ -10,7 +10,8 @@ var router = express.Router();
 router.post('/register', function(req, res) {
     let userData = {
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        role: req.body.role
     };
 
     if (credentialsCheck.isValid(userData)) {

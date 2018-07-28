@@ -1,4 +1,5 @@
 const mongoose = require('../db/connection');
+const UserRole = require('./UserRole');
 
 var userSchema = mongoose.Schema({
     email: {
@@ -8,6 +9,10 @@ var userSchema = mongoose.Schema({
     },
     password: {
         type: String,
+        required: true
+    },
+    role_id: {
+        type: Number,
         required: true
     }
 });
