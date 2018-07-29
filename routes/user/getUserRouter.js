@@ -10,17 +10,30 @@ var router = express.Router();
 router.get('/liked-cities', jwtTokens.verifyToken, (req, res) => {
     userQueries.findUserById(req.userId)
     .then((user) => {
-        verifySubscriber(user, res);
+        verifySubscriber(user, res, true);
     }).catch((err) => {
         response.handleError(err, res);
     });
 });
 
-function verifySubscriber(user, res) {
+router.get('/other-cities', jwtTokens.verifyToken, (req, res) => {
+    userQueries.findUserById(req.userId)
+    .then((user) => {
+        verifySubscriber(user, res, false);
+    }).catch((err) => {
+        response.handleError(err, res);
+    });
+});
+
+function verifySubscriber(user, res, getLikedCities) {
     userRoleQueries.getSubscriberRoleId()
     .then((subscriberId) => {
         if (subscriberId == user.role_id) {
-            createLikedCitiesArray(user, res);
+            if (getLikedCities) {
+                createLikedCitiesArray(user, res);
+            } else {
+                createOtherCitiesArray(user, res);
+            }
         } else {
             response.sendForbiddenResponse(res);
         }
@@ -32,6 +45,7 @@ function verifySubscriber(user, res) {
 function createLikedCitiesArray(user, res) {
     let promises = [];
     let citiesArray = [];
+
     user.liked_cities.forEach(cityId => {
         promises.push(
             getCityPromise(cityId)
@@ -39,6 +53,7 @@ function createLikedCitiesArray(user, res) {
                 citiesArray.push(city);
             }).catch((err) => {
                 if (err.status == 404 || err.message.name == 'CastError') {
+                    console.log('HERE3');
                     userQueries.removeNotExistingCityFromLiked(user._id, cityId);
                 } else {
                     response.sendBadResponse(res, err);
@@ -61,6 +76,30 @@ function getCityPromise(cityId) {
         }).catch((err) => {
             reject(err);
         });
+    });
+}
+
+function createOtherCitiesArray(user, res) {
+    let citiesArray = [];
+
+    cityQueries.getAllCities()
+    .then((data) => {
+        data.forEach(city => {
+            let addCity = true;
+            user.liked_cities.forEach(likedCity => {
+                if (likedCity == city._id) {
+                    addCity = false;
+                }
+            });
+
+            if (addCity) {
+                citiesArray.push(city);
+            }
+        });
+
+        response.sendResponse(res, citiesArray);
+    }).catch((error) => {
+        response.sendBadResponse(res, error);
     });
 }
 

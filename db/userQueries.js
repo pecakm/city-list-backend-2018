@@ -109,7 +109,8 @@ queries.unlikeCity = (userId, cityId) => {
 queries.removeNotExistingCityFromLiked = (userId, cityId) => {
     User.update(
         { _id: userId },
-        { $pull: { liked_cities: cityId } }
+        { $pull: { liked_cities: cityId } },
+        () => {}
     );
 }
 
