@@ -7,19 +7,6 @@ let response = require('../../modules/responseType');
 
 var router = express.Router();
 
-router.get('/', jwtTokens.verifyToken, function(req, res) {
-    userQueries.findUserById(req.userId)
-    .then(function(user) {
-        response.sendResponse(res, user);
-    }).catch(function(err) {
-        if (err.status == 404) {
-            response.sendNoItemFoundResponse(res);
-        } else {
-            response.sendBadResponse(res, err.message);
-        }
-    });
-});
-
 router.get('/liked-cities', jwtTokens.verifyToken, function(req, res) {
     userQueries.findUserById(req.userId)
     .then(function(user) {
@@ -55,9 +42,8 @@ function createLikedCitiesArray(data, res) {
     let citiesArray = [];
 
     data.forEach(cityId => {
-        console.log('HERE');
         promises.push(
-            getOneCity(cityId)
+            getCityPromise(cityId)
             .then(function(city) {
                 citiesArray.push(city);
             }).catch(function(err) {
@@ -72,24 +58,17 @@ function createLikedCitiesArray(data, res) {
 
     Promise.all(promises)
     .then(() => {
-        console.log('Done');
         response.sendResponse(res, citiesArray);
     });
 }
 
-function getOneCity(cityId) {
+function getCityPromise(cityId) {
     return new Promise(function(resolve, reject) {
         cityQueries.findCityById(cityId)
         .then(function(city) {
             resolve(city);
         }).catch(function(err) {
-            if (err.status == 404 || err.name == 'CastError') {
-                // delete this item
-                reject(err);
-            } else {
-                reject(err);
-                //response.sendBadResponse(res, err);
-            }
+            reject(err);
         });
     });
 }
