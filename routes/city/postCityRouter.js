@@ -13,11 +13,7 @@ router.post('/add', jwtTokens.verifyToken, function(req, res) {
     .then(function(user) {
         verifyAdmin(user.role_id, req, res);
     }).catch(function(err) {
-        if (err.status == 404) {
-            response.sendNoItemFoundResponse(res);
-        } else {
-            response.sendBadResponse(res, err);
-        }
+        response.handleError(err, res);
     });
 });
 
@@ -30,11 +26,7 @@ function verifyAdmin(roleId, req, res) {
             response.sendForbiddenResponse(res);
         }
     }).catch(function(err) {
-        if (err.status == 404) {
-            response.sendNoItemFoundResponse(res);
-        } else {
-            response.sendBadResponse(res, err);
-        }
+        response.handleError(err, res);
     });
 }
 

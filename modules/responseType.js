@@ -32,4 +32,12 @@ response.sendBadResponse = function(res, message) {
     res.end(JSON.stringify(message));
 }
 
+response.handleError = function(err, res) {
+    if (err.status == 404) {
+        this.sendNoItemFoundResponse(res);
+    } else {
+        this.sendBadResponse(res, err);
+    }
+}
+
 module.exports = response;

@@ -11,11 +11,7 @@ router.post('/register', function(req, res) {
     .then(function(subscriberRoleId) {
         checkUserData(subscriberRoleId, req, res);
     }).catch(function(err) {
-        if (err.status == 404) {
-            response.sendNoItemFoundResponse(res);
-        } else {
-            response.sendBadResponse(res, err);
-        }
+        response.handleError(err, res);
     });
 });
 
@@ -47,11 +43,7 @@ router.post('/login', function(req, res) {
     .then(function(token) {
         response.sendResponse(res, token);
     }).catch(function(err) {
-        if (err.status == 500) {
-            response.sendBadResponse(res, err.message);
-        } else {
-            response.sendNoItemFoundResponse(res);
-        }
+        response.handleError(err, res);
     });
 });
 
