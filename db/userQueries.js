@@ -6,9 +6,9 @@ const SALT_ROUNDS = 10;
 
 let queries = {};
 
-queries.findUserById = function(id) {
-    return new Promise(function(resolve, reject) {
-        User.findById(id, { password: 0 }, function(err, user) {
+queries.findUserById = (id) => {
+    return new Promise((resolve, reject) => {
+        User.findById(id, { password: 0 }, (err, user) => {
             if (err) {
                 reject({ status: 500, message: err });
             } else if (!user) {
@@ -20,16 +20,16 @@ queries.findUserById = function(id) {
     });
 }
 
-queries.createUser = function(userData) {
-    return new Promise(function(resolve, reject) {
-        bcrypt.hash(userData.password, SALT_ROUNDS, function(err, hash) {
+queries.createUser = (userData) => {
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(userData.password, SALT_ROUNDS, (err, hash) => {
             if (err) {
                 reject(err);
             } else {
                 saveUser(userData.email, hash, userData.role)
-                .then(function(result) {
+                .then((result) => {
                     resolve(result);
-                }).catch(function(error) {
+                }).catch((error) => {
                     reject(error);
                 });
             }
@@ -44,9 +44,9 @@ function saveUser(email, hash, role) {
         role_id: role
     });
 
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
         user.save()
-        .then(function(result) {
+        .then((result) => {
             resolve(jwtTokens.signToken(user._id));
         }).catch(error => {
             reject(error);
@@ -54,9 +54,9 @@ function saveUser(email, hash, role) {
     });
 }
 
-queries.loginUser = function(email, password) {
-    return new Promise(function(resolve, reject) {
-        User.findOne({ email: email }, function(err, user) {
+queries.loginUser = (email, password) => {
+    return new Promise((resolve, reject) => {
+        User.findOne({ email: email }, (err, user) => {
             if (err) {
                 reject({ status: 500, message: err });
             } else if (!user) {
@@ -74,12 +74,12 @@ queries.loginUser = function(email, password) {
     });
 }
 
-queries.likeCity = function(userId, cityId) {
+queries.likeCity = (userId, cityId) => {
     return new Promise(function(resolve, reject) {
         User.update(
             { _id: userId },
             { $addToSet: { liked_cities: cityId } },
-            function(err, result) {
+            (err, result) => {
                 if (err) {
                     reject({ status: 500, message: err });
                 } else if (!cityId) {

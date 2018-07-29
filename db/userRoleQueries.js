@@ -2,9 +2,9 @@ UserRole = require('../models/UserRole');
 
 let queries = {};
 
-queries.getAdminRoleId = function() {
-    return new Promise(function(resolve, reject) {
-        UserRole.findOne({ description: 'admin' }, function(err, role) {
+queries.getAdminRoleId = () => {
+    return new Promise((resolve, reject) => {
+        UserRole.findOne({ description: 'admin' }, (err, role) => {
             if (err) {
                 reject({ status: 500, message: err });
             } else if (!role) {
@@ -16,9 +16,9 @@ queries.getAdminRoleId = function() {
     });
 }
 
-queries.getSubscriberRoleId = function() {
-    return new Promise(function(resolve, reject) {
-        UserRole.findOne({ description: 'subscriber' }, function(err, role) {
+queries.getSubscriberRoleId = () => {
+    return new Promise((resolve, reject) => {
+        UserRole.findOne({ description: 'subscriber' }, (err, role) => {
             if (err) {
                 reject({ status: 500, message: err });
             } else if (!role) {

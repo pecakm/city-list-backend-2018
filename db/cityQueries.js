@@ -2,9 +2,9 @@ City = require('../models/City');
 
 let queries = {};
 
-queries.getAllCities = function() {
-    return new Promise(function(resolve, reject) {
-        City.find(function(error, cities) {
+queries.getAllCities = () => {
+    return new Promise((resolve, reject) => {
+        City.find((error, cities) => {
             if (error) {
                 reject(error);
             } else {
@@ -14,9 +14,9 @@ queries.getAllCities = function() {
     });
 }
 
-queries.findCityById = function(id) {
-    return new Promise(function(resolve, reject) {
-        City.findById(id, function(err, city) {
+queries.findCityById = (id) => {
+    return new Promise((resolve, reject) => {
+        City.findById(id, (err, city) => {
             if (err) {
                 reject({ status: 500, message: err });
             } else if (!city) {
@@ -28,12 +28,12 @@ queries.findCityById = function(id) {
     });
 }
 
-queries.addCity = function(cityName) {
-    return new Promise(function(resolve, reject) {
+queries.addCity = (cityName) => {
+    return new Promise((resolve, reject) => {
         saveCity(cityName)
-        .then(function(city) {
+        .then((city) => {
             resolve(city);
-        }).catch(function(error) {
+        }).catch((error) => {
             reject(error);
         });
     });
@@ -44,9 +44,9 @@ function saveCity(name) {
         name: name   
     });
 
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
         city.save()
-        .then(function(city) {
+        .then((city) => {
             resolve(city);
         }).catch(error => {
             reject(error);
@@ -54,9 +54,9 @@ function saveCity(name) {
     });
 }
 
-queries.deleteCity = function(id) {
-    return new Promise(function(resolve, reject) {
-        City.remove({ _id: id }, function(err, result) {
+queries.deleteCity = (id) => {
+    return new Promise((resolve, reject) => {
+        City.remove({ _id: id }, (err, result) => {
             if (err) {
                 reject(err);
             } else {
