@@ -20,7 +20,7 @@ function verifySubscriber(user, res) {
     userRoleQueries.getSubscriberRoleId()
     .then((subscriberId) => {
         if (subscriberId == user.role_id) {
-            createLikedCitiesArray(user.liked_cities, res);
+            createLikedCitiesArray(user, res);
         } else {
             response.sendForbiddenResponse(res);
         }
@@ -29,18 +29,17 @@ function verifySubscriber(user, res) {
     });
 }
 
-function createLikedCitiesArray(data, res) {
+function createLikedCitiesArray(user, res) {
     let promises = [];
     let citiesArray = [];
-
-    data.forEach(cityId => {
+    user.liked_cities.forEach(cityId => {
         promises.push(
             getCityPromise(cityId)
             .then((city) => {
                 citiesArray.push(city);
             }).catch((err) => {
-                if (err.status == 404 || err.name == 'CastError') {
-                    // delete this item
+                if (err.status == 404 || err.message.name == 'CastError') {
+                    userQueries.deleteNotExistingCity(user._id, cityId);
                 } else {
                     response.sendBadResponse(res, err);
                 }

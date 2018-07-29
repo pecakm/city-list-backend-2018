@@ -75,7 +75,7 @@ queries.loginUser = (email, password) => {
 }
 
 queries.likeCity = (userId, cityId) => {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
         User.update(
             { _id: userId },
             { $addToSet: { liked_cities: cityId } },
@@ -90,6 +90,13 @@ queries.likeCity = (userId, cityId) => {
             }
         );
     });
+}
+
+queries.deleteNotExistingCity = (userId, cityId) => {
+    User.update(
+        { _id: userId },
+        { $pull: { liked_cities: cityId } }
+    );
 }
 
 module.exports = queries;
