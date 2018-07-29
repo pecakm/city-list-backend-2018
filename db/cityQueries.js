@@ -14,17 +14,15 @@ queries.getAllCities = function() {
     });
 }
 
-queries.getCityById = function(id) {
+queries.findCityById = function(id) {
     return new Promise(function(resolve, reject) {
         City.findById(id, function(err, city) {
             if (err) {
-                reject(err);
+                reject({ status: 500, message: err });
+            } else if (!city) {
+                reject({ status: 404 });
             } else {
-                if (city == null) {
-                    reject({ status: 404 });
-                } else {
-                    resolve(city);
-                }
+                resolve(city);
             }
         });
     });
@@ -56,30 +54,16 @@ function saveCity(name) {
     });
 }
 
-queries.findCityById = function(id) {
-    return new Promise(function(resolve, reject) {
-        City.findById(id, function(err, city) {
-            if (err) {
-                reject({ status: 500, message: err });
-            } else if (!city) {
-                reject({ status: 404 });
-            } else {
-                resolve(city._id);
-            }
-        });
-    });
-}
-
 queries.deleteCity = function(id) {
     return new Promise(function(resolve, reject) {
-        City.remove({ _id: id }, function(err, data) {
+        City.remove({ _id: id }, function(err, result) {
             if (err) {
                 reject(err);
             } else {
-                if (data.n == 0) {
+                if (result.n == 0) {
                     reject({ status: 404 });
                 } else {
-                    resolve(data);
+                    resolve(result);
                 }
             }
         });

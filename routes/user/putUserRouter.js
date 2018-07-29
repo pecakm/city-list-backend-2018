@@ -40,7 +40,7 @@ function verifySubscriber(user, req, res) {
 function verifyCity(userId, cityId, res) {
     cityQueries.findCityById(cityId)
     .then(function(city) {
-        likeCity(userId, city, res);
+        likeCity(userId, city._id, res);
     }).catch(function(err) {
         if (err.status == 404) {
             response.sendNoItemFoundResponse(res);

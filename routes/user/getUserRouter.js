@@ -79,7 +79,7 @@ function createLikedCitiesArray(data, res) {
 
 function getOneCity(cityId) {
     return new Promise(function(resolve, reject) {
-        cityQueries.getCityById(cityId)
+        cityQueries.findCityById(cityId)
         .then(function(city) {
             resolve(city);
         }).catch(function(err) {

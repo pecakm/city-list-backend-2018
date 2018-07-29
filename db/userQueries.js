@@ -6,6 +6,20 @@ const SALT_ROUNDS = 10;
 
 let queries = {};
 
+queries.findUserById = function(id) {
+    return new Promise(function(resolve, reject) {
+        User.findById(id, { password: 0 }, function(err, user) {
+            if (err) {
+                reject({ status: 500, message: err });
+            } else if (!user) {
+                reject({ status: 404 });
+            } else {
+                resolve(user);
+            }
+        });
+    });
+}
+
 queries.createUser = function(userData) {
     return new Promise(function(resolve, reject) {
         bcrypt.hash(userData.password, SALT_ROUNDS, function(err, hash) {
@@ -40,20 +54,6 @@ function saveUser(email, hash, role) {
     });
 }
 
-queries.findUserById = function(id) {
-    return new Promise(function(resolve, reject) {
-        User.findById(id, { password: 0 }, function(err, user) {
-            if (err) {
-                reject({ status: 500, message: err });
-            } else if (!user) {
-                reject({ status: 404 });
-            } else {
-                resolve(user);
-            }
-        });
-    });
-}
-
 queries.loginUser = function(email, password) {
     return new Promise(function(resolve, reject) {
         User.findOne({ email: email }, function(err, user) {
@@ -79,28 +79,16 @@ queries.likeCity = function(userId, cityId) {
         User.update(
             { _id: userId },
             { $addToSet: { liked_cities: cityId } },
-            function(err, data) {
+            function(err, result) {
                 if (err) {
                     reject({ status: 500, message: err });
                 } else if (!cityId) {
                     reject({ status: 404 });
                 } else {
-                    resolve(data);
+                    resolve(result);
                 }
             }
         );
-    });
-}
-
-queries.getLikedCities = function(userId) {
-    return new Promise(function(resolve, reject) {
-        User.find(function(error, cities) {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(cities);
-            }
-        });
     });
 }
 
