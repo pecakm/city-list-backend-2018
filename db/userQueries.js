@@ -81,9 +81,7 @@ queries.likeCity = (userId, cityId) => {
             { $addToSet: { liked_cities: cityId } },
             (err, result) => {
                 if (err) {
-                    reject({ status: 500, message: err });
-                } else if (!cityId) {
-                    reject({ status: 404 });
+                    reject(err);
                 } else {
                     resolve(result);
                 }
@@ -92,7 +90,23 @@ queries.likeCity = (userId, cityId) => {
     });
 }
 
-queries.deleteNotExistingCity = (userId, cityId) => {
+queries.unlikeCity = (userId, cityId) => {
+    return new Promise((resolve, reject) => {
+        User.update(
+            { _id: userId },
+            { $pull: { liked_cities: cityId } },
+            (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            }
+        );
+    });
+}
+
+queries.removeNotExistingCityFromLiked = (userId, cityId) => {
     User.update(
         { _id: userId },
         { $pull: { liked_cities: cityId } }

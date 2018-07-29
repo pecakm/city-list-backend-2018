@@ -39,7 +39,7 @@ function createLikedCitiesArray(user, res) {
                 citiesArray.push(city);
             }).catch((err) => {
                 if (err.status == 404 || err.message.name == 'CastError') {
-                    userQueries.deleteNotExistingCity(user._id, cityId);
+                    userQueries.removeNotExistingCityFromLiked(user._id, cityId);
                 } else {
                     response.sendBadResponse(res, err);
                 }
