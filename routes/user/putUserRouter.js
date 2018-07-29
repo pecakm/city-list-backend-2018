@@ -7,54 +7,42 @@ let userRoleQueries = require('../../db/userRoleQueries');
 
 var router = express.Router();
 
-router.put('/like', jwtTokens.verifyToken, function(req, res) {
+router.put('/like', jwtTokens.verifyToken, (req, res) => {
     userQueries.findUserById(req.userId)
-    .then(function(user) {
+    .then((user) => {
         verifySubscriber(user, req, res);
-    }).catch(function(err) {
-        if (err.status == 404) {
-            response.sendNoItemFoundResponse(res);
-        } else {
-            response.sendBadResponse(res, err);
-        }
+    }).catch((err) => {
+        response.handleError(err, res);
     });
 });
 
 function verifySubscriber(user, req, res) {
     userRoleQueries.getSubscriberRoleId()
-    .then(function(subscriberId) {
+    .then((subscriberId) => {
         if (subscriberId == user.role_id) {
             verifyCity(user._id, req.body.cityId, res);
         } else {
             response.sendForbiddenResponse(res);
         }
-    }).catch(function(err) {
-        if (err.status == 404) {
-            response.sendNoItemFoundResponse(res);
-        } else {
-            response.sendBadResponse(res, err);
-        }
+    }).catch((err) => {
+        response.handleError(err, res);
     });
 }
 
 function verifyCity(userId, cityId, res) {
     cityQueries.findCityById(cityId)
-    .then(function(city) {
+    .then((city) => {
         likeCity(userId, city._id, res);
-    }).catch(function(err) {
-        if (err.status == 404) {
-            response.sendNoItemFoundResponse(res);
-        } else {
-            response.sendBadResponse(res, err.message);
-        }
+    }).catch((err) => {
+        response.handleError(err, res);
     });
 }
 
 function likeCity(userId, cityId, res) {
     userQueries.likeCity(userId, cityId)
-    .then(function(data) {
+    .then((data) => {
         response.sendResponse(res, data);
-    }).catch(function(err) {
+    }).catch((err) => {
         response.sendBadResponse(res, err);
     });
 }

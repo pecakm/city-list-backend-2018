@@ -7,24 +7,24 @@ let response = require('../../modules/responseType');
 
 var router = express.Router();
 
-router.get('/liked-cities', jwtTokens.verifyToken, function(req, res) {
+router.get('/liked-cities', jwtTokens.verifyToken, (req, res) => {
     userQueries.findUserById(req.userId)
-    .then(function(user) {
+    .then((user) => {
         verifySubscriber(user, res);
-    }).catch(function(err) {
+    }).catch((err) => {
         response.handleError(err, res);
     });
 });
 
 function verifySubscriber(user, res) {
     userRoleQueries.getSubscriberRoleId()
-    .then(function(subscriberId) {
+    .then((subscriberId) => {
         if (subscriberId == user.role_id) {
             createLikedCitiesArray(user.liked_cities, res);
         } else {
             response.sendForbiddenResponse(res);
         }
-    }).catch(function(err) {
+    }).catch((err) => {
         response.handleError(err, res);
     });
 }
@@ -36,9 +36,9 @@ function createLikedCitiesArray(data, res) {
     data.forEach(cityId => {
         promises.push(
             getCityPromise(cityId)
-            .then(function(city) {
+            .then((city) => {
                 citiesArray.push(city);
-            }).catch(function(err) {
+            }).catch((err) => {
                 if (err.status == 404 || err.name == 'CastError') {
                     // delete this item
                 } else {
@@ -57,9 +57,9 @@ function createLikedCitiesArray(data, res) {
 function getCityPromise(cityId) {
     return new Promise(function(resolve, reject) {
         cityQueries.findCityById(cityId)
-        .then(function(city) {
+        .then((city) => {
             resolve(city);
-        }).catch(function(err) {
+        }).catch((err) => {
             reject(err);
         });
     });

@@ -6,11 +6,11 @@ let response = require('../../modules/responseType');
 
 var router = express.Router();
 
-router.post('/register', function(req, res) {
+router.post('/register', (req, res) => {
     userRoleQueries.getSubscriberRoleId()
-    .then(function(subscriberRoleId) {
+    .then((subscriberRoleId) => {
         checkUserData(subscriberRoleId, req, res);
-    }).catch(function(err) {
+    }).catch((err) => {
         response.handleError(err, res);
     });
 });
@@ -31,18 +31,18 @@ function checkUserData(subscriberRoleId, req, res) {
 
 function createUser(userData, res) {
     userQueries.createUser(userData)
-    .then(function(data) {
+    .then((data) => {
         response.sendResponse(res, data);
-    }).catch(function(error) {
+    }).catch((error) => {
         response.sendBadResponse(res, error);
     });
 }
 
-router.post('/login', function(req, res) {
+router.post('/login', (req, res) => {
     userQueries.loginUser(req.body.email, req.body.password)
-    .then(function(token) {
+    .then((token) => {
         response.sendResponse(res, token);
-    }).catch(function(err) {
+    }).catch((err) => {
         response.handleError(err, res);
     });
 });

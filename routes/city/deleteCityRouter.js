@@ -7,38 +7,34 @@ let jwtTokens = require('../../modules/jsonWebTokens');
 
 var router = express.Router();
 
-router.delete('/delete', jwtTokens.verifyToken, function(req, res) {
+router.delete('/delete', jwtTokens.verifyToken, (req, res) => {
     userQueries.findUserById(req.userId)
-    .then(function(user) {
+    .then((user) => {
         verifyAdmin(user.role_id, req, res);
-    }).catch(function(err) {
+    }).catch((err) => {
         response.handleError(err, res);
     });
 });
 
 function verifyAdmin(roleId, req, res) {
     userRoleQueries.getAdminRoleId()
-    .then(function(adminId) {
+    .then((adminId) => {
         if (adminId == roleId) {
             deleteCity(req.body.cityId, res);
         } else {
             response.sendForbiddenResponse(res);
         }
-    }).catch(function(err) {
+    }).catch((err) => {
         response.handleError(err, res);
     });
 }
 
 function deleteCity(cityId, res) {
     cityQueries.deleteCity(cityId)
-    .then(function(data) {
+    .then((data) => {
         response.sendResponse(res, data);
-    }).catch(function(error) {
-        if (error.status == 404) {
-            response.sendNoItemFoundResponse(res);
-        } else {
-            response.sendBadResponse(res, error);
-        }
+    }).catch((err) => {
+        response.handleError(err, res);
     });
 }
 

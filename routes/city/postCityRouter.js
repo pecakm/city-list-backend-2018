@@ -8,24 +8,24 @@ let cityNameCheck = require('../../modules/cityNameCheck');
 
 var router = express.Router();
 
-router.post('/add', jwtTokens.verifyToken, function(req, res) {
+router.post('/add', jwtTokens.verifyToken, (req, res) => {
     userQueries.findUserById(req.userId)
-    .then(function(user) {
+    .then((user) => {
         verifyAdmin(user.role_id, req, res);
-    }).catch(function(err) {
+    }).catch((err) => {
         response.handleError(err, res);
     });
 });
 
 function verifyAdmin(roleId, req, res) {
     userRoleQueries.getAdminRoleId()
-    .then(function(adminId) {
+    .then((adminId) => {
         if (adminId == roleId) {
             addCity(req.body.name, res);
         } else {
             response.sendForbiddenResponse(res);
         }
-    }).catch(function(err) {
+    }).catch((err) => {
         response.handleError(err, res);
     });
 }
@@ -35,9 +35,9 @@ function addCity(name, res) {
 
     if (cityNameCheck.isValid(cityName)) {
         cityQueries.addCity(cityName)
-        .then(function(city) {
+        .then((city) => {
             response.sendResponse(res, city);
-        }).catch(function(err) {
+        }).catch((err) => {
             response.sendBadResponse(res, err);
         });
     } else {

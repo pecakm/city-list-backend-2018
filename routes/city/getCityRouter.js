@@ -4,11 +4,11 @@ let response = require('../../modules/responseType');
 
 var router = express.Router();
 
-router.get('/all', function(req, res) {
+router.get('/all', (req, res) => {
     cityQueries.getAllCities()
-    .then(function(data) {
+    .then((data) => {
         response.sendResponse(res, data);
-    }).catch(function(error) {
+    }).catch((error) => {
         response.sendBadResponse(res, error);
     });
 });
