@@ -1,6 +1,6 @@
 let credentialsCheck = {};
 
-credentialsCheck.isValid = function(userData) {
+credentialsCheck.isValid = (userData) => {
     if (!validateEmail(userData.email)) {
         return false;
     }
@@ -22,7 +22,7 @@ function validateEmail(email) {
 }
 
 function validatePassword(password) {
-    if (password == null) {
+    if (!password) {
         return false;
     }
 
@@ -42,7 +42,7 @@ function validatePassword(password) {
 }
 
 function validateRole(role) {
-    if (role == null) {
+    if (!role) {
         return false;
     }
 

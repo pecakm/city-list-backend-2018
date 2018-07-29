@@ -1,6 +1,6 @@
 let cityNameCheck = {};
 
-cityNameCheck.isValid = function(cityName) {
+cityNameCheck.isValid = (cityName) => {
     if (cityName == null) {
         return false;
     }
