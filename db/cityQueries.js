@@ -14,6 +14,22 @@ queries.getAllCities = function() {
     });
 }
 
+queries.getCityById = function(id) {
+    return new Promise(function(resolve, reject) {
+        City.findById(id, function(err, city) {
+            if (err) {
+                reject(err);
+            } else {
+                if (city == null) {
+                    reject({ status: 404 });
+                } else {
+                    resolve(city);
+                }
+            }
+        });
+    });
+}
+
 queries.addCity = function(cityName) {
     return new Promise(function(resolve, reject) {
         saveCity(cityName)

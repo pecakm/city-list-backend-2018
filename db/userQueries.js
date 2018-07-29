@@ -92,4 +92,16 @@ queries.likeCity = function(userId, cityId) {
     });
 }
 
+queries.getLikedCities = function(userId) {
+    return new Promise(function(resolve, reject) {
+        User.find(function(error, cities) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(cities);
+            }
+        });
+    });
+}
+
 module.exports = queries;
